@@ -1,19 +1,27 @@
 import streamlit as st
+from genres.page import show_genres
 
-st.title('Hello world!')
-# Esse geito acima é como fazemos para passar um titulo
-st.divider()
-# esse comando acima é usado para colocar uma linh dividindo
-code = '''def hello():
-    print("Hello, World with Streamlit")'''
-st.code(code, language='python')
-# acima esta como colocar os trechos de codigo amostra na tela do site
-st.text('Output: "Hello, World with Streamlit"')
-# acima temos como escrever textos normais na tela
 
-st.divider()
+# usando função por questões de boas praticas
+def main():
+    st.title("Flix App")
+    menu_option = st.sidebar.selectbox(
+        'selecione uma das opções abaixo',
+        ['Inicio', 'Atores/Atrizes', 'Avaliações', 'Generos', 'Filmes']
+    )
 
-st.text_input('Digite seu email', placeholder='email@server.com')
-# essa maneira é como faz para um campo onde o usuario pode passar um texto
-st.text_input('Digite sua senha', placeholder='Senha123')
-st.divider()
+    match menu_option:
+        case 'Inicio':
+            st.write('Inicio')
+        case 'Atores/Atrizes':
+            st.write('Lista de Atores/Atrizes')
+        case 'Avaliações':
+            st.write('Feedbacks')
+        case 'Generos':
+            show_genres()
+        case 'Filmes':
+            st.write('Lista de filmes')
+
+
+if __name__ == '__main__':
+    main()
