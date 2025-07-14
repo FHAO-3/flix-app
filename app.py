@@ -9,7 +9,7 @@ code = '''def hello():
 st.code(code, language='python')
 # acima esta como colocar os trechos de codigo amostra na tela do site
 st.text('Output: "Hello, World with Streamlit"')
-# acima temos como escrever textos normais na tela 
+# acima temos como escrever textos normais na tela
 
 st.divider()
 
