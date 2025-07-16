@@ -1,4 +1,7 @@
 import streamlit as st
+import pandas as pd
+from st_aggrid import AgGrid
+
 
 genres = [
     {
@@ -8,7 +11,7 @@ genres = [
     {
         'id': 2,
         'name': 'Comedia'
-    },    
+    },
     {
         'id': 3,
         'name': 'Terror'
@@ -20,7 +23,12 @@ def show_genres():
     st.write('Lista de generos')
     # a diferença de `st.write` para `st.text` é que o `st.write` aceita qualquer tipo de dado ja o `st.text` aceita sp str
 
-    st.table(genres)
+    AgGrid(
+        data=pd.DataFrame(genres),
+        reload_data=True,
+        key='genres_grid'
+    )
+    # tivemos de intalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes
 
     st.divider()
 
