@@ -19,3 +19,9 @@ def login(username, password):
         # funciona como se fosse um reload na tela
         # obiservacão o `st.rerun()` é usado quando queremos dar reload somente na tela atual
     # varificando se o login deu certo, se login correto salva o token e recarrega a tela
+
+
+def logout():
+    for key in st.session_state.keys():
+        del st.session_state[key]
+    st.rerun()

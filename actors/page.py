@@ -1,50 +1,53 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 from st_aggrid import AgGrid
-
-
-actors = [
-    {
-        'id': 1,
-        'name': 'Vin Diesel',
-        'birthday': '1967-07-18',
-        'nationality': 'USA'
-    },
-    {
-        'id': 2,
-        'name': 'Paul Walker',
-        'birthday': '1973-09-12',
-        'nationality': 'USA'
-    },
-    {
-        'id': 3,
-        'name': 'Michele Rodriguez',
-        'birthday': '1078-07-12',
-        'nationality': 'USA'
-    },
-    {
-        'id': 4,
-        'name': 'Jordana Brewster',
-        'birthday': '1980-08-26',
-        'nationality': 'USA'
-    },
-]  # dados mocados para uso futuro
+from actors.service import ActorsService
 
 
 def show_actors():
-    st.write('Lista de Ator/Atriz')
-    # a diferença de `st.write` para `st.text` é que o `st.write` aceita qualquer tipo de dado ja o `st.text` aceita so str
+    actor_service = ActorsService()
+    actors = actor_service.get_actors()
 
-    AgGrid(
-        data=pd.DataFrame(actors),
-        reload_data=True,
-        key='actors_grid'
-    )
-    # tivemos de instalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes
+    if actors:
+        st.write('Lista de Ator/Atriz')
+        # a diferença de `st.write` para `st.text` é que o `st.write` aceita qualquer tipo de dado ja o `st.text` aceita so str
+        # converte a lista de atores/atrizes em um DataFrame do pandas
+        AgGrid(
+            data=pd.json_normalize(actors),
+            reload_data=True,
+            key='actors_grid'
+        )
+        # tivemos de instalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes
+    else:
+        st.warning('Nenhum ator/atriz encontrado')
 
     st.divider()
 
     st.title('Cadastrar novo Ator/Atriz')
     name = st.text_input('Nome do (da) Ator/Atriz').title()
+
+    st.title('Data de nascimento')
+    birthday = st.date_input(
+        label='Data de nascimanto do (da) Ator/Atriz',
+        value=datetime.today(),
+        min_value=datetime(1600, 1, 1).date(),  # valor minimo para data
+        max_value=datetime.today(),  # valor maximo para data
+        format='DD/MM/YYYY'  # modelo de data
+    )
+    st.title('Nacionalidade do ator/atriz')
+    nationality_dropdown = ['Nacionalidade', 'BRAZIL', 'USA']
+    nationality = st.selectbox(
+        label='Nacionalidade',
+        options=nationality_dropdown
+    )
     if st.button('Confirmar'):
-        st.success(f'Ator/Atriz "{name}" Cadastrado com sucesso!')
+        new_actor = actor_service.create_actors(
+            name=name,
+            birthday=birthday,
+            nationality=nationality
+        )
+        if new_actor:
+            st.rerun()
+        else:
+            st.error('Erro ao cadastrar o ator/atriz. Verifique os campos')

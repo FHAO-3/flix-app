@@ -1,38 +1,20 @@
 import streamlit as st
 import pandas as pd
 from st_aggrid import AgGrid
-
-
-reviews = [
-    {
-        'id': 1,
-        'stars': 4
-    },
-    {
-        'id': 2,
-        'stars': 5
-    },    
-    {
-        'id': 3,
-        'stars': 3
-    },
-]  # dados mocados para uso futuro
+from review.service import ReviewService
 
 
 def show_reviews():
-    st.write('Lista de avaliações')
-    # a diferença de `st.write` para `st.text` é que o `st.write` aceita qualquer tipo de dado ja o `st.text` aceita so str
+    review_service = ReviewService()
+    reviews = review_service.get_review()
+    if reviews:
+        st.write('Lista de avaliações')
 
-    AgGrid(
-        data=pd.DataFrame(reviews),
-        reload_data=True,
-        key='reviews_grid'
-    )
-    # tivemos de instalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes
-
+        AgGrid(
+            data=pd.json_normalize(reviews),
+            reload_data=True,
+            key='reviews_grid'
+        )
+    else:
+        st.warning('Não foi encontrado dados cadastrados')
     st.divider()
-
-    st.title('Cadastrar novo avaliação')
-    name = st.text_input('Nome do avaliação').title()
-    if st.button('Confirmar'):
-        st.success(f'avaliação "{name}" adicionado com sucesso!')

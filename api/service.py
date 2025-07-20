@@ -4,8 +4,8 @@ import requests
 class Auth:
     # será usada pra autenticação
     def __init__(self):
-        self.__base_url = 'http://fhao.pythonanywhere.com/api/v1/'  # Adicionei barra no final
-        self.__auth_url = f'{self.__base_url}authentication/token/'  # Corrigi a concatenação e adicionei barra
+        self.__base_url = 'http://fhao.pythonanywhere.com/api/v1/'
+        self.__auth_url = f'{self.__base_url}authentication/token/'
         # essa url sera concatenada com a url de cima para realizar as autenticacões
 
     def get_token(self, username, password):

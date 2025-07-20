@@ -9,14 +9,15 @@ from review.page import show_reviews
 # usando função por questões de boas praticas
 def main():
     if 'token' not in st.session_state:
+        # if logout
         show_login()
     else:
+        # if login
         st.title("Flix App")
         menu_option = st.sidebar.selectbox(
             'selecione uma das opções abaixo',
             ['Inicio', 'Atores/Atrizes', 'Avaliações', 'Generos', 'Filmes']
         )
-
         match menu_option:
             case 'Inicio':
                 st.write('Inicio')
