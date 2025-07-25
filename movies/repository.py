@@ -38,3 +38,16 @@ class MoviesRepository:
             return None
         elif response.status_code == 400:
             st.error('Dado Invalido!')
+
+    def get_movie_stats(self):
+        response = requests.get(
+            f'{self.__movies_url}stats/',
+            headers=self.__headers
+        )
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 401:
+            logout()
+            return None
+        else:
+            raise Exception(f'Erro {response.status_code}')

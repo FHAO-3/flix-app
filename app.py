@@ -1,6 +1,7 @@
 import streamlit as st
 from actors.page import show_actors
 from genres.page import show_genres
+from home.page import show_home
 from login.page import show_login
 from movies.page import show_movies
 from reviews.page import show_reviews
@@ -20,7 +21,7 @@ def main():
         )
         match menu_option:
             case 'Inicio':
-                st.write('Inicio')
+                show_home()
             case 'Atores/Atrizes':
                 show_actors()
             case 'Avaliações':
