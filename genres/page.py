@@ -13,7 +13,6 @@ def show_genres():
         # a diferença de `st.write` para `st.text` é que o `st.write` aceita qualquer tipo de dado ja o `st.text` aceita sp str
         AgGrid(
             data=pd.json_normalize(genres),  # transforma o json em dataframe
-            reload_data=True,
             key='genres_grid'
         )
         # tivemos de instalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes

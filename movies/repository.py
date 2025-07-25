@@ -24,8 +24,6 @@ class MoviesRepository:
             return None
 
     def create_movies(self, movie):
-        for i in movie:
-            print(f'>>> {i}')
         response = requests.post(
             self.__movies_url,
             headers=self.__headers,

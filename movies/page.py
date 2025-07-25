@@ -22,7 +22,6 @@ def show_movies():
 
         AgGrid(
             data=movies_df,
-            reload_data=True,
             key='movies_grid'
         )
     else:

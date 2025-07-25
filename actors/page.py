@@ -15,7 +15,6 @@ def show_actors():
         # converte a lista de atores/atrizes em um DataFrame do pandas
         AgGrid(
             data=pd.json_normalize(actors),
-            reload_data=True,
             key='actors_grid'
         )
         # tivemos de instalar o `pandas` para transformar essa lista em um `DataFrame` pois a `AgGrid` tem varios recursos de ordenação de tabela baseados em dataframes
